@@ -1,4 +1,5 @@
-__author__ = 'erik'
+# Numerisk prosjekt, Kvantefysikk 1 (FY2045), NTNU 2015
+
 
 import numpy as np
 import matplotlib.pyplot as plt
