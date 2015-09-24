@@ -18,7 +18,7 @@ k = 2 * pi  # wavenumber
 # psi = Ae^(-bx^2)*e^i(kx-wt)
 #     = Ae^(-bx^2)*(cos(kx-wt) - i*sin(kx-wt))    # hva er A og b??
 # fra wikipedia ser vi:
-# psi(x,t) = e^(-(x-ct))^2 * ( cos(2*pi * (x-ct)/L) +i*sin(2*pi * (x-ct)/L))  # vet ikke helt hva c,L er..
+# psi(x,t) = e^(-(x-ct))^2 * ( cos(k * (x-ct)) +i*sin(k * (x-ct)))  # vet ikke helt hva c er. c muligens = omega
 
 # psi = psi_r + i * psi_i
 # psi_r = e^(-(x-ct))^2 * ( cos(k * (x-ct)) )
