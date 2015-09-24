@@ -9,18 +9,29 @@ import matplotlib.pyplot as plt
 
 h = 1.055 * 10**(-34)  # h-bar in J*s
 pi = np.pi  # gode gamle pi = 3.1415...
+# k = ...  # wavenumber
+# w = ...  # omega
 # plt.ion() # må ha med denne for å kunne modifisere plottet etter at det er tegnet opp.
 
 '''
-# wave function == wave packet ??
+# wave function = wave packet:
+# psi = Ae^(-bx^2)*e^i(kx-wt)
+#     = Ae^(-bx^2)*(cos(kx-wt) - i*sin(kx-wt))    # hva er A og b??
+# fra wikipedia ser vi:
+# psi(x,t) = e^(-(x-ct))^2 * ( cos(2*pi * (x-ct)/L) +i*sin(2*pi * (x-ct)/L))  # vet ikke helt hva c,L er..
+
 # psi = psi_r + i * psi_i
-# psi = Ae^(bx^2)*e^(kw-wt) ??
+# psi_r = e^(-(x-ct))^2 * ( cos(2*pi * (x-ct)/L) )
+# psi_i = e^(-(x-ct))^2 * ( sin(2*pi * (x-ct)/L) )
+
 
 def Psi_r(x, t):
-    return ......
+    A = np.exp((-(x-ct))^2)
+    return A * np.cos(2*np.pi * (x-ct)/L)
 
 def Psi_i(x, t):
-    return ......
+    A = np.exp((-(x-ct))^2)
+    return A * np.sin(2*np.pi * (x-ct)/L)
 
 def V(x):
     return ......
@@ -53,10 +64,5 @@ dt = 0.1
 
 psi_r = dt/h * ( B1 )
 psi_i = dt/h * ( B2 )  # B1,2 er de lange greiene han skrev i forelesning
-
-
-
-
-
 
 
