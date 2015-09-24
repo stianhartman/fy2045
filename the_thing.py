@@ -54,7 +54,8 @@ def plotter(X, psi_real, psi_imag):  # definer plottefunksjonen.
 
 
 # definer området denne shiten skal virke over, eg. fra x0 -> x1
-N = 1000x0 = - 2*pi
+N = 1000
+x0 = - 2*pi
 x1 = 2*pi
 t = 0
 
@@ -62,7 +63,7 @@ X = np.linspace(x0, x1, num=N)
 psi_r = Psi_r(X, t)
 psi_i = Psi_i(X, t)
 
-plotter(X, psi_r, psi_i)
+plotter(X, psi_r, psi_i)  # bare midlertidig for å se at ting funker.
 
 '''
 # må på en eller annen måte kalkulere Psi på et senere tidspunkt. hmm...
