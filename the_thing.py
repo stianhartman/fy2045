@@ -12,7 +12,9 @@ pi = np.pi  # gode gamle pi = 3.1415...
 # plt.ion() # må ha med denne for å kunne modifisere plottet etter at det er tegnet opp.
 
 '''
+# wave function == wave packet ??
 # psi = psi_r + i * psi_i
+# psi = Ae^(bx^2)*e^(kw-wt) ??
 
 def Psi_r(x, t):
     return ......
@@ -34,6 +36,7 @@ def plotter(X, psi_real, psi_imag):  # definer plottefunksjonen.
 
 '''
 
+
 # definer området denne shiten skal virke over, eg. fra x0 -> x1
 N = 10
 x0 = 0
@@ -50,8 +53,6 @@ dt = 0.1
 
 psi_r = dt/h * ( B1 )
 psi_i = dt/h * ( B2 )  # B1,2 er de lange greiene han skrev i forelesning
-
-
 
 
 
