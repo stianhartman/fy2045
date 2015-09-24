@@ -71,6 +71,6 @@ plotter(X, psi_r, psi_i)  # bare midlertidig for å se at ting funker.
 dt = 0.1
 
 psi_r = dt/h * ( B1 )
-psi_i = dt/h * ( B2 )  # B1,2 er de lange greiene han skrev i forelesning
+psi_i = dt/h * ( B2 )  # B1,2 er de lange greiene han skrev i forelesning -- denne er din, Stian.
 
 '''
