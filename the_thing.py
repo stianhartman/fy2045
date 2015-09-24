@@ -21,17 +21,17 @@ pi = np.pi  # gode gamle pi = 3.1415...
 # psi(x,t) = e^(-(x-ct))^2 * ( cos(2*pi * (x-ct)/L) +i*sin(2*pi * (x-ct)/L))  # vet ikke helt hva c,L er..
 
 # psi = psi_r + i * psi_i
-# psi_r = e^(-(x-ct))^2 * ( cos(2*pi * (x-ct)/L) )
-# psi_i = e^(-(x-ct))^2 * ( sin(2*pi * (x-ct)/L) )
+# psi_r = e^(-(x-ct))^2 * ( cos(k * (x-ct)) )
+# psi_i = e^(-(x-ct))^2 * ( sin(k * (x-ct)) )
 
 
 def Psi_r(x, t):
     A = np.exp((-(x-ct))^2)
-    return A * np.cos(2*np.pi * (x-ct)/L)
+    return A * np.cos(k * (x-ct))
 
 def Psi_i(x, t):
     A = np.exp((-(x-ct))^2)
-    return A * np.sin(2*np.pi * (x-ct)/L)
+    return A * np.sin(k * (x-ct))
 
 def V(x):
     return ......
