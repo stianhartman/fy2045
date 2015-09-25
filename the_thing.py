@@ -40,8 +40,6 @@ def Psi_i(x, t):
     return A * np.sin(k * (x - np.ones(np.size(x)) * c * t))
 
 
-
-
 def V(x):
     print(x)
     x[x < 1] = 0
@@ -66,14 +64,15 @@ x0 = - 2*pi
 x1 = 2*pi
 t = 0
 dt = 0.02
+dx = (x1 - x0)/N
 
 X = np.linspace(x0, x1, num=N)
-for n in range(10):
+for n in range(1):
     t = t + dt
     psi_r = Psi_r(X, t)
     psi_i = Psi_i(X, t)
 
-    plotter(X, psi_r, psi_i)  # bare midlertidig for å se at ting funker.
+    # plotter(X, psi_r, psi_i)  # bare midlertidig for å se at ting funker.
 
 
 '''
