@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 h = 1.055 * 10 ** (-34)  # h-bar in J*s
 pi = np.pi  # gode gamle pi = 3.1415...
-k = 2 * pi  # wavenumber
+k = pi*5  # wavenumber
 m = h
 # w = ...  # omega
 plt.ion() # må ha med denne for å kunne modifisere plottet etter at det er tegnet opp.
@@ -35,14 +35,19 @@ def Psi_r(x, t):
 
 
 def Psi_i(x, t):
-    c = 1    A = np.exp(-(x - np.ones(np.size(x)) * c * t) ** 2)
+    c = 1
+    A = np.exp(-(x - np.ones(np.size(x)) * c * t) ** 2)
     return A * np.sin(k * (x - np.ones(np.size(x)) * c * t))
 
 
 
 
 def V(x):
-    return 0
+    print(x)
+    x[x < 1] = 0
+    x[x >= 1] = 10
+    print(x)
+    return x
 
 
 
@@ -63,13 +68,13 @@ t = 0
 dt = 0.02
 
 X = np.linspace(x0, x1, num=N)
-for n in range(100):
+for n in range(10):
     t = t + dt
     psi_r = Psi_r(X, t)
     psi_i = Psi_i(X, t)
-    v = V(X)
 
     plotter(X, psi_r, psi_i)  # bare midlertidig for å se at ting funker.
+
 
 '''
 # må på en eller annen måte kalkulere Psi på et senere tidspunkt. hmm...
