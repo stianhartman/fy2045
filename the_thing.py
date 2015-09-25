@@ -35,8 +35,7 @@ def Psi_r(x, t):
 
 
 def Psi_i(x, t):
-    c = 0.5
-    A = np.exp(-(x - np.ones(np.size(x)) * c * t) ** 2)
+    c = 1    A = np.exp(-(x - np.ones(np.size(x)) * c * t) ** 2)
     return A * np.sin(k * (x - np.ones(np.size(x)) * c * t))
 
 
@@ -52,7 +51,7 @@ def plotter(X, psi_real, psi_imag):  # definer plottefunksjonen.
     plt.plot(X, psi_real, X, psi_imag)
     plt.xlim((-2*pi, 2*pi))
     plt.ylim((-2, 2))
-    plt.pause(0.1)
+    plt.pause(0.002)
     plt.show()
 
 
@@ -61,13 +60,16 @@ N = 1000
 x0 = - 2*pi
 x1 = 2*pi
 t = 0
+dt = 0.02
 
 X = np.linspace(x0, x1, num=N)
-psi_r = Psi_r(X, t)
-psi_i = Psi_i(X, t)
-v = V(X)
+for n in range(100):
+    t = t + dt
+    psi_r = Psi_r(X, t)
+    psi_i = Psi_i(X, t)
+    v = V(X)
 
-plotter(X, psi_r, psi_i)  # bare midlertidig for å se at ting funker.
+    plotter(X, psi_r, psi_i)  # bare midlertidig for å se at ting funker.
 
 '''
 # må på en eller annen måte kalkulere Psi på et senere tidspunkt. hmm...
@@ -76,7 +78,7 @@ dt = 0.1
 psi_r = dt/h * ( B1 )
 psi_i = dt/h * ( B2 )  # B1,2 er de lange greiene han skrev i forelesning -- denne er din, Stian.
 
-'''
+
 
 for n in range(50):
     dt = 0.1
@@ -88,7 +90,7 @@ for n in range(50):
 
     psi_i = psi_i
 
-    '''
+
     dette fungerte ikke så bra :(
     psi_r = dt/h *  ((h/dt) * Psi_r(X, t - dt/2) - (h**2 / (2*m*(dx**2))) *
                  (Psi_i(X + np.ones(np.size(X))*dx, t) - 2*psi_i +
@@ -97,7 +99,7 @@ for n in range(50):
     psi_i = dt/h *  ((h/dt) * psi_i - (h**2 / (2*m*(dx**2))) *
                  (Psi_r(X + np.ones(np.size(X))*dx, t + dt/2) - 2*Psi_r(X, t + dt/2) +
                   Psi_r(X - np.ones(np.size(X))*dx, t + dt/2)) + V(X)*psi_r)
-    '''
+
     plotter(X,psi_r,psi_i)
 
-
+'''
