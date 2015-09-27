@@ -16,19 +16,11 @@ pi = np.pi  # gode gamle pi = 3.1415...
 # psi_i = Ce^(-(x-x0)^2/(2*sigma_x**2)) * ( sin(kx-wt) )
 
 '''
-# def Psi(x, t):
+def Psi(x, x0, w, C, sigma_x, t):
+    psi_r = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * ( np.cos(k*x - w*t))
+    psi_i = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * ( np.sin(k*x - w*t))
+    return psi_r + 1j*psi_i
 
-
-def Psi_r(x, t):
-    c = 1
-    A = np.exp(-(x - np.ones(np.size(x)) * c * t) ** 2)
-    return A * np.cos(k * (x - np.ones(np.size(x)) * c * t))
-
-
-def Psi_i(x, t):
-    c = 1
-    A = np.exp(-(x - np.ones(np.size(x)) * c * t) ** 2)
-    return A * np.sin(k * (x - np.ones(np.size(x)) * c * t))
 
 
 '''
@@ -37,9 +29,9 @@ def V(x):
 '''
 
 
-def plotter(X, psi_real, psi_imag):  # definer plottefunksjonen.
+def plotter(X, psi):  # definer plottefunksjonen.
     plt.clf()
-    plt.plot(X, psi_real, X, psi_imag)
+    plt.plot(X, psi.real, X, psi.imag)
     plt.xlim((X[0], X[-1]))
     plt.ylim((-2, 2))
     plt.show()
@@ -53,6 +45,10 @@ k = 20  # wavenumber
 L = 20  #
 # w = ...  # omega
 # E = ...  # energy
+# C = ...  # normalization constant
+C = 1
+w = 1
+sigma_x = 1
 
 
 # plt.ion() # må ha med denne for å kunne modifisere plottet etter at det er tegnet opp.
@@ -61,13 +57,12 @@ L = 20  #
 N = 1000
 x0 = 0
 x1 = L
-t0 = 0
+t = 0
 
 X = np.linspace(x0, x1, num=N)
-psi_r = Psi_r(X, t)
-psi_i = Psi_i(X, t)
+psi = Psi(X, x0, w, C, sigma_x, t)  # går sikkert ann å gjøre denne penere eller på en bedre måte.
 
-plotter(X, psi_r, psi_i)  # bare midlertidig for å se at ting funker.
+plotter(X, psi)  # bare midlertidig for å se at ting funker.
 
 '''
 # må på en eller annen måte kalkulere Psi på et senere tidspunkt. hmm...
