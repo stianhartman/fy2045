@@ -16,12 +16,13 @@ pi = np.pi  # gode gamle pi = 3.1415...
 # psi_i = Ce^(-(x-x0)^2/(2*sigma_x**2)) * ( sin(kx-wt) )
 
 '''
-def Psi_initial(x, x0, t):
+
+def Psi_initial(x, x0, t, dt):
     C = 1
     w = 1
     sigma_x = 1
 
-    psi_r = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * (np.cos(k*x - w*t))
+    psi_r = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * (np.cos(k*x - w*(t+dt/2)))
     psi_i = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * (np.sin(k*x - w*t))
     psi_r[0] = 0
     psi_r[-1] = 0
@@ -78,7 +79,7 @@ x1 = L
 t = 0
 dx = L/(N-1)
 print('dx: ', dx)
-dt = 0.01 * 2*m*(dx**2)
+dt = 0.05 * 2*m*(dx**2)
 print('dt: ', dt)
 
 
@@ -86,7 +87,7 @@ print('dt: ', dt)
 # initsialisere
 X = np.linspace(0, x1, num=N)
 V = X*0
-psi = Psi_initial(X, x0, t)  # går sikkert ann å gjøre denne penere eller på en bedre måte.
+psi = Psi_initial(X, x0, t, dt)  # går sikkert ann å gjøre denne penere eller på en bedre måte.
 
 
 plotter(X, psi)  # bare midlertidig for å se at ting funker.
