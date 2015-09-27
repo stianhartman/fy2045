@@ -58,7 +58,7 @@ sigma_x = 1
 # plt.ion() # må ha med denne for å kunne modifisere plottet etter at det er tegnet opp.
 
 # definer området denne shiten skal virke over, eg. fra x0 -> x1
-N = 10
+N = 1000
 x0 = 0
 x1 = L
 t = 0
