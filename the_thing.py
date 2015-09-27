@@ -79,14 +79,14 @@ x1 = L
 t = 0
 dx = L/(N-1)
 print('dx: ', dx)
-dt = 0.05 * 2*m*(dx**2)
+dt = 0.05 * 2*m*(dx**2)  # for stabilitet
 print('dt: ', dt)
 
 
 
 # initsialisere
 X = np.linspace(0, x1, num=N)
-V = X*0
+V = X*0  # midlertidig potential
 psi = Psi_initial(X, x0, t, dt)  # går sikkert ann å gjøre denne penere eller på en bedre måte.
 
 
