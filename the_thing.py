@@ -19,6 +19,10 @@ pi = np.pi  # gode gamle pi = 3.1415...
 def Psi(x, x0, w, C, sigma_x, t):
     psi_r = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * ( np.cos(k*x - w*t))
     psi_i = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * ( np.sin(k*x - w*t))
+    psi_r[0] = 0
+    psi_r[-1] = 0
+    psi_i[0] = 0
+    psi_i[-1] = 0
     return psi_r + 1j*psi_i
 
 
@@ -54,7 +58,7 @@ sigma_x = 1
 # plt.ion() # må ha med denne for å kunne modifisere plottet etter at det er tegnet opp.
 
 # definer området denne shiten skal virke over, eg. fra x0 -> x1
-N = 1000
+N = 10
 x0 = 0
 x1 = L
 t = 0
