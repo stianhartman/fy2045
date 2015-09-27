@@ -4,104 +4,92 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-# definer variabler, funksjoner, etc.
-
-h = 1.055 * 10 ** (-34)  # h-bar in J*s
 pi = np.pi  # gode gamle pi = 3.1415...
-k = pi*5  # wavenumber
-m = h
-# w = ...  # omega
-plt.ion() # må ha med denne for å kunne modifisere plottet etter at det er tegnet opp.
 
 '''
 # wave function = wave packet:
-# psi = Ae^(-bx^2)*e^i(kx-wt)
-#     = Ae^(-bx^2)*(cos(kx-wt) - i*sin(kx-wt))    # hva er A og b??
-# fra wikipedia ser vi:
-# psi(x,t) = e^(-(x-ct))^2 * ( cos(k * (x-ct)) +i*sin(k * (x-ct)))  # vet ikke helt hva c er. c muligens = omega
-
+# psi = Ce^(-(x-x0)^2/(2*sigma_x**2))*e^i(kx-wt)
+#     = Ce^(-(x-x0)^2/(2*sigma_x**2))*(cos(kx-wt) + i*sin(kx-wt))    # hva er C ??
+#
 # psi = psi_r + i * psi_i
-# psi_r = e^(-(x-ct))^2 * ( cos(k * (x-ct)) )
-# psi_i = e^(-(x-ct))^2 * ( sin(k * (x-ct)) )
+# psi_r = Ce^(-(x-x0)^2/(2*sigma_x**2)) * ( cos(kx-wt) )
+# psi_i = Ce^(-(x-x0)^2/(2*sigma_x**2)) * ( sin(kx-wt) )
 
 '''
+def Psi_initial(x, x0, t):
+    C = 1
+    w = 1
+    sigma_x = 1
 
-def Psi_r(x, t):
-    c = 1
-    A = np.exp(-(x - np.ones(np.size(x)) * c * t) ** 2)
-    return A * np.cos(k * (x - np.ones(np.size(x)) * c * t))
-
-
-
-def Psi_i(x, t):
-    c = 1
-    A = np.exp(-(x - np.ones(np.size(x)) * c * t) ** 2)
-    return A * np.sin(k * (x - np.ones(np.size(x)) * c * t))
-
-
-def V(x):
-    x[x < 1] = 0
-    x[x >= 1] = 10
-    return x
+    psi_r = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * (np.cos(k*x - w*t))
+    psi_i = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * (np.sin(k*x - w*t))
+    psi_r[0] = 0
+    psi_r[-1] = 0
+    psi_i[0] = 0
+    psi_i[-1] = 0
+    return psi_r + 1j*psi_i
 
 
+def Psi_dt(a, dt):
+    for n in range(np.size(a) - 2):
+        n = n + 1
+        a.imag[n] = a.imag[n-1] - dt * ( V[n] * a.real[n] - (1/(2*m*(dx**2))) *
+                                         (a.real[n+1] - 2*a.real[n] + a.real[n-1]))
 
-def plotter(X, psi_real, psi_imag):  # definer plottefunksjonen.
+        a.real[n] = a.real[n-1] + dt * ( V[n] * a.imag[n] - (1/(2*m*(dx**2)))*
+                                         (a.imag[n+1] - 2*a.imag[n] + a.imag[n-1]))
+    return a
+
+
+
+'''
+def potential(a):
+    a[a < 10] = 0
+    a[a >= 10] = 0
+    return a
+'''
+
+def plotter(X, a):  # definer plottefunksjonen.
     plt.clf()
-    plt.plot(X, psi_real, X, psi_imag)
-    plt.xlim((-2*pi, 2*pi))
+    plt.plot(X, a.real, X, a.imag)
+    plt.xlim((0, 20))
     plt.ylim((-2, 2))
-    plt.pause(0.002)
+    # plt.pause(0.01)
     plt.show()
 
 
+# definer variabler, funksjoner, etc.
+
+h = 1  # h-bar
+m = 1  # mass, m
+k = 20  # wavenumber
+L = 20  #
+# w = ...  # omega
+# E = ...  # energy
+# C = ...  # normalization constant
+
+
+# plt.ion() # må ha med denne for å kunne modifisere plottet etter at det er tegnet opp.
+
 # definer området denne shiten skal virke over, eg. fra x0 -> x1
 N = 1000
-x0 = - 2*pi
-x1 = 2*pi
+x0 = 5
+x1 = L
 t = 0
-dt = 0.02
-dx = (x1 - x0)/N
-
-X = np.linspace(x0, x1, num=N)
-for n in range(1):
-    t = t + dt
-    psi_r = Psi_r(X, t)
-    psi_i = Psi_i(X, t)
-
-    # plotter(X, psi_r, psi_i)  # bare midlertidig for å se at ting funker.
-
-
-'''
-# må på en eller annen måte kalkulere Psi på et senere tidspunkt. hmm...
-
-dt = 0.1
-psi_r = dt/h * ( B1 )
-psi_i = dt/h * ( B2 )  # B1,2 er de lange greiene han skrev i forelesning -- denne er din, Stian.
+dx = L/(N-1)
+print('dx: ', dx)
+dt = 0.01 * 2*m*(dx**2)
+print('dt: ', dt)
 
 
 
-for n in range(50):
-    dt = 0.1
-    dx = 0.1
-    t = t + dt
-
-    psi_r = psi_r - ( (h*dt/(2*m*dx**2)) * ( Psi_i(X + np.ones(np.size(X))*dx, t + dt/2) +
-                    Psi_i(X - np.ones(np.size(X))*dx, t + dt/2) - 2*Psi_i(X, t + dt/2)) + (dt/h)*V(X)*Psi_i(X, t + dt/2))
-
-    psi_i = psi_i
+# initsialisere
+X = np.linspace(0, x1, num=N)
+V = X*0
+psi = Psi_initial(X, x0, t)  # går sikkert ann å gjøre denne penere eller på en bedre måte.
 
 
-    dette fungerte ikke så bra :(
-    psi_r = dt/h *  ((h/dt) * Psi_r(X, t - dt/2) - (h**2 / (2*m*(dx**2))) *
-                 (Psi_i(X + np.ones(np.size(X))*dx, t) - 2*psi_i +
-                  Psi_i(X - np.ones(np.size(X))*dx, t)) + V(X)*psi_i)
+plotter(X, psi)  # bare midlertidig for å se at ting funker.
 
-    psi_i = dt/h *  ((h/dt) * psi_i - (h**2 / (2*m*(dx**2))) *
-                 (Psi_r(X + np.ones(np.size(X))*dx, t + dt/2) - 2*Psi_r(X, t + dt/2) +
-                  Psi_r(X - np.ones(np.size(X))*dx, t + dt/2)) + V(X)*psi_r)
-
-    plotter(X,psi_r,psi_i)
-
-'''
+psi = Psi_dt(psi, dt)
+plotter(X, psi)
