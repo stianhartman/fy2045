@@ -17,12 +17,12 @@ pi = np.pi  # gode gamle pi = 3.1415...
 
 '''
 
-def Psi_initial(x, x0, t, dt):
+def Psi_initial(x, x0, t):
     C = 1
     w = 1
     sigma_x = 2
 
-    psi_r = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * (np.cos(k*x - w*(t+dt/2)))
+    psi_r = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * (np.cos(k*x - w*t))
     psi_i = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * (np.sin(k*x - w*t))
     psi_r[0] = 0
     psi_r[-1] = 0
@@ -70,7 +70,7 @@ def plotter(X, a):  # definer plottefunksjonen.
     plt.plot(X, a.real, X, a.imag)
     plt.xlim((0, 20))
     plt.ylim((-2, 2))
-    plt.pause(0.01)
+    plt.pause(5)
     plt.show()
 
 
@@ -101,12 +101,15 @@ print('dt: ', dt)
 
 # initsialisere
 X = np.linspace(0, x1, num=N)
-V = potential(X)  # midlertidig potential
-psi = Psi_initial(X, x0, t, dt)  # går sikkert ann å gjøre denne penere eller på en bedre måte.
+# V = potential(X)  # midlertidig potential
+V = X*0
+psi = Psi_initial(X, x0, t)  # går sikkert ann å gjøre denne penere eller på en bedre måte.
 
 
 plotter(X, psi)  # bare midlertidig for å se at ting funker.
 
-for n in range(1000):
+'''
+for n in range(10):
     psi = Psi_dt(psi, dt)
     plotter(X, psi)
+'''
