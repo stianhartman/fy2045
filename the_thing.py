@@ -41,10 +41,8 @@ def Psi_i(x, t):
 
 
 def V(x):
-    print(x)
     x[x < 1] = 0
     x[x >= 1] = 10
-    print(x)
     return x
 
 
