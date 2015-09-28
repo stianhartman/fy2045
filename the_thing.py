@@ -65,14 +65,11 @@ h = 1  # h-bar
 m = 1  # mass, m
 k = 20  # wavenumber
 L = 20  #
-# w = ...  # omega
-# E = ...  # energy
-# C = ...  # normalization constant
-C = 1
 sigma_x = 1
-w = 1
-l = L/50
-E = h*w
+C = np.sqrt(np.sqrt(1/(pi*sigma_x**2)))  # normalization constant, ser ut til å kanskje være feil??
+w = 10  # omega
+l = L/50  # lengde på barriere
+E = h*w  # energy
 
 plt.ion() # må ha med denne for å kunne modifisere plottet etter at det er tegnet opp.
 
