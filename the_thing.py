@@ -17,9 +17,9 @@ pi = np.pi  # gode gamle pi = 3.1415...
 
 '''
 
-def Psi(x, x0, w, C, sigma_x, t):
-    psi_r = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * ( np.cos(k*x - w*t))
-    psi_i = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * ( np.sin(k*x - w*t))
+def Psi(x, x0, w, C, sigma_x, dt):
+    psi_r = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * ( np.cos(k*x))
+    psi_i = C * np.exp(-(x - x0)**2 / (2*sigma_x**2)) * ( np.sin(k*x - w*dt))
     psi_r[0] = 0
     psi_r[-1] = 0
     psi_i[0] = 0
@@ -29,15 +29,16 @@ def Psi(x, x0, w, C, sigma_x, t):
 
 
 def Psi_dt(a, dt, number_of_times):
+    a_new = a
     for i in range(number_of_times):
         for n in range(np.size(a) - 2):
             n += 1
-            a.imag[n] -= dt * (V[n] * a.real[n] - (1 / (2 * m * (dx ** 2))) *
+            a_new.imag[n] -= dt * (10*V[n] * a.real[n] - (1 / (2 * m * (dx ** 2))) *
                                (a.real[n + 1] - 2 * a.real[n] + a.real[n - 1]))
 
-            a.real[n] += dt * (V[n] * a.imag[n] - (1 / (2 * m * (dx ** 2))) *
+            a_new.real[n] += dt * (10*V[n] * a.imag[n] - (1 / (2 * m * (dx ** 2))) *
                                (a.imag[n + 1] - 2 * a.imag[n] + a.imag[n - 1]))
-    return a
+    return a_new
 
 
 
@@ -55,7 +56,7 @@ def plotter(X, a):  # definer plottefunksjonen.
     plt.plot(X, a.real, X, a.imag)
     plt.xlim((0, 20))
     plt.ylim((-2, 2))
-    plt.pause(5)
+    plt.pause(0.01)
     plt.show()
 
 
@@ -89,12 +90,12 @@ print('dt: ', dt)
 X = np.linspace(0, x1, num=N)
 # V = potential(X)  # midlertidig potential
 V = potential(X)
-psi = Psi(X, x0, w, C, sigma_x, t)  # går sikkert ann å gjøre denne penere eller på en bedre måte.
+psi = Psi(X, x0, w, C, sigma_x, dt)  # går sikkert ann å gjøre denne penere eller på en bedre måte.
 
 
 plotter(X, psi)  # bare midlertidig for å se at ting funker.
 
 
-for n in range(10):
-    psi = Psi_dt(psi, dt, 500)
+for n in range(300):
+    psi = Psi_dt(psi, dt, 10)
     plotter(X, psi)
