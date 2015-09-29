@@ -1,8 +1,8 @@
 # Numerisk prosjekt, Kvantefysikk 1 (FY2045), NTNU 2015
 
 import numpy as np
-#import matplotlib
-#matplotlib.use('TkAgg')
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
@@ -35,7 +35,7 @@ def Psi_dt(a, dt, number_of_times):
     for i in range(number_of_times):
         for n in range(np.size(a) - 2):
             n += 1
-            a_new.imag[n] -= dt * (V[n] * a.real[n] - (1 / (2 * m * (dx ** 2))) *
+            a_new.imag[n] -= dt * (V[n] * a.real[n] -
                                (a.real[n + 1] - 2 * a.real[n] + a.real[n - 1]))
 
             a_new.real[n] += dt * (V[n] * a.imag[n] - (1 / (2 * m * (dx ** 2))) *
@@ -77,7 +77,7 @@ w = 10  # omega
 l = L/50  # lengde på barriere
 E = h*w  # energy
 
-plt.ion() # må ha med denne for å kunne modifisere plottet etter at det er tegnet opp.
+# plt.ion() # må ha med denne for å kunne modifisere plottet etter at det er tegnet opp.
 
 # definer området denne shiten skal virke over, eg. fra x0 -> x1
 N = 500
@@ -87,29 +87,29 @@ t = 0
 dx = L/(N-1)
 dt = 0.1 * 2*m*(dx**2)  # for stabilitet
 
+X = np.linspace(0, L, num=N)
 
+psi = Psi(X, x0, w, C, sigma_x, dt)
 
-# initsialisere
-X = np.linspace(0, x1, num=N)
-# V = potential(X)  # midlertidig potential
-V = potential(X)
-psi = Psi(X, x0, w, C, sigma_x, dt)  # går sikkert ann å gjøre denne penere eller på en bedre måte.
-
-
+# First set up the figure, the axis, and the plot element we want to animate
 fig = plt.figure()
 ax = plt.axes(xlim=(0, L), ylim=(-2, 2))
 line, = ax.plot([], [])
 
+# initialization function: plot the background of each frame
 def init():
     line.set_data([], [])
     return line,
 
+# animation function.  This is called sequentially
 def animate(i):
-    x = X
-    y = np.sin(2 * np.pi * (x - 0.01 * i))
-    line.set_data(x, y)
+    x = np.linspace(0, L, num=N)
+    y = Psi_dt(psi, dt, 10)
+    print(y)
+    line.set_data(x, y.real)
     return line,
 
+# call the animator.  blit=True means only re-draw the parts that have changed.
 anim = animation.FuncAnimation(fig, animate, init_func=init,
                                frames=200, interval=20, blit=True)
 
