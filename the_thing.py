@@ -2,7 +2,10 @@
 
 # import div
 import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 pi = np.pi  # gode gamle pi = 3.1415...
 
