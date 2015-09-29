@@ -50,7 +50,10 @@ def potential(a):
     return b
 
 
+def update():
+    return 0
 
+'''
 def plotter(X, a):  # definer plottefunksjonen.
     plt.clf()
     plt.plot(X, a.real, X, a.imag)
@@ -58,7 +61,7 @@ def plotter(X, a):  # definer plottefunksjonen.
     plt.ylim((-2, 2))
     plt.pause(0.001)
     plt.show()
-
+'''
 
 # definer variabler, funksjoner, etc.
 
@@ -80,9 +83,7 @@ x0 = 5
 x1 = L
 t = 0
 dx = L/(N-1)
-print('dx: ', dx)
 dt = 0.1 * 2*m*(dx**2)  # for stabilitet
-print('dt: ', dt)
 
 
 
@@ -93,9 +94,21 @@ V = potential(X)
 psi = Psi(X, x0, w, C, sigma_x, dt)  # går sikkert ann å gjøre denne penere eller på en bedre måte.
 
 
-plotter(X, psi)  # bare midlertidig for å se at ting funker.
+fig = plt.figure()
+ax = plt.axes(xlim=(0, L), ylim=(-2, 2))
+line, = ax.plot([], [])
 
+def init():
+    line.set_data([], [])
+    return line,
 
-for n in range(1000):
-    psi = Psi_dt(psi, dt, 10)
-    plotter(X, psi)
+def animate(i):
+    x = X
+    y = np.sin(2 * np.pi * (x - 0.01 * i))
+    line.set_data(x, y)
+    return line,
+
+anim = animation.FuncAnimation(fig, animate, init_func=init,
+                               frames=200, interval=20, blit=True)
+
+plt.show()
