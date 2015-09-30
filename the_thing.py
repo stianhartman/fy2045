@@ -1,13 +1,12 @@
 # Numerisk prosjekt, Kvantefysikk 1 (FY2045), NTNU 2015
 
-# import div
 import numpy as np
 #import matplotlib
 #matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 
-pi = np.pi  # gode gamle pi = 3.1415...
+
 
 '''
 # wave function = wave packet:
@@ -49,7 +48,7 @@ def potential(a):
     b = np.zeros(np.size(a))
     for n in range(np.size(a) - 1):
         if (L/2 - l/2) < a[n] < (L/2 + l/2):
-            b[n] = 1/2 * E
+            b[n] = (1/2) * E
     return b
 
 
@@ -57,6 +56,7 @@ def potential(a):
 def plotter(X, a):  # definer plottefunksjonen.
     plt.clf()
     plt.plot(X, a.real, X, a.imag)
+    plt.plot(X, V)
     plt.xlim((0, 20))
     plt.ylim((-2, 2))
     plt.pause(0.001)
@@ -64,7 +64,7 @@ def plotter(X, a):  # definer plottefunksjonen.
 
 
 # definer variabler, funksjoner, etc.
-
+pi = np.pi  # gode gamle pi = 3.1415...
 h = 1  # h-bar
 m = 1  # mass, m
 k = 20  # wavenumber
@@ -83,15 +83,11 @@ x0 = 5
 x1 = L
 t = 0
 dx = L/(N-1)
-print('dx: ', dx)
 dt = 0.1 * 2*m*(dx**2)  # for stabilitet
-print('dt: ', dt)
-
 
 
 # initsialisere
 X = np.linspace(0, x1, num=N)
-# V = potential(X)  # midlertidig potential
 V = potential(X)
 psi = Psi(X, x0, w, C, sigma_x, dt)  # går sikkert ann å gjøre denne penere eller på en bedre måte.
 
@@ -99,6 +95,6 @@ psi = Psi(X, x0, w, C, sigma_x, dt)  # går sikkert ann å gjøre denne penere e
 plotter(X, psi)  # bare midlertidig for å se at ting funker.
 
 
-for n in range(1000):
+for n in range(10000):
     psi = Psi_dt(psi, dt, 10)
     plotter(X, psi)
